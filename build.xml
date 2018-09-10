@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BeeSphere Document generator Build File -->
+<project basedir="." default="build" name="BeeSphere SOA Security API">
+
+	<!-- Current version we are working towards -->
+	<property name="VERSION" value="1.0" />
+	<property name="prj" value="soa-security" />
+
+	<!-- Paths -->
+	<property name="src" value="${basedir}/src" />
+	<property name="lib" value="${basedir}/lib" />
+	<property name="dist" value="${basedir}/dist" />
+	<property name="bin" value="${basedir}/bin" />
+
+	<!-- Build BeeSphere SOA Security -->
+	<target name="build">
+		<jar jarfile="${prj}-${VERSION}.jar">
+			<manifest>
+				<attribute name="${prj}" value="Version ${VERSION}" />
+			</manifest>
+			<fileset dir="${bin}/">
+				<include name="**/*.class" />
+				<include name="**/*.dtd" />
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+			</fileset>
+		</jar>
+		<copy file="${prj}-${VERSION}.jar" todir="${dist}" />
+		<copy file="${prj}-${VERSION}.jar" tofile="${dist}/beesphere-${prj}-${VERSION}.jar" />
+		<delete file="${prj}-${VERSION}.jar" />
+	</target>
+	
+	<target name="build-tests">
+		<echo message="Creating Project Archive ${prj}" />
+		<jar jarfile="${prj}-${VERSION}-tests.jar">
+			<manifest>
+				<attribute name="${prj}" value="Version ${VERSION}" />
+			</manifest>
+			<fileset dir="${bin}/">
+				<include name="**/*.class" />
+				<include name="**/*.dtd" />
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<exclude name="**/log4j.properties" />
+			</fileset>
+		</jar>
+		<copy file="${prj}-${VERSION}-tests.jar" todir="${dist}" />
+		<copy file="${prj}-${VERSION}-tests.jar" tofile="${dist}/beesphere-${prj}-${VERSION}-tests.jar" />
+		<delete file="${prj}-${VERSION}-tests.jar" />
+	</target>
+	<target name="all" depends="build, build-tests" />
+</project>
